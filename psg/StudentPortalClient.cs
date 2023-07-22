@@ -60,6 +60,7 @@ internal class StudentPortalClient
             new KeyValuePair<string, string>("StateContext", "bG9naW5zY2hlbWE9ZGVmYXVsdA==")
         });
 
+        // We're checking for "error" instead because for some FUCKING reason, the student portal returns a 200 on failed login.
         HttpResponseMessage loginResponse = await _httpClient.PostAsync(LoginUrl, loginFormContent);
         if ((await loginResponse.Content.ReadAsStringAsync()).Contains("error",
                 StringComparison.InvariantCultureIgnoreCase))

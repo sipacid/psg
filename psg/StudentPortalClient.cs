@@ -7,7 +7,7 @@ namespace psg;
 /// </summary>
 internal class StudentPortalClient
 {
-    private const string UserAgent = "Mozilla/5.0 (X11; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0";
+    private const string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36";
     private const string AcceptLanguage = "en-GB,en;q=0.5";
     private const string StudentPortalUrl = "https://studentportal.inholland.nl/";
     private const string LoginUrl = "https://auth.inholland.nl/p/u/doAuthentication.do";
@@ -70,6 +70,9 @@ internal class StudentPortalClient
     internal async Task<string> GetHtmlTable()
     {
         HttpResponseMessage response = await _httpClient.GetAsync(GradeUrl);
+        if (!response.IsSuccessStatusCode)
+            throw new Exception("Failed to get HTML table.");
+
         string responseString = await response.Content.ReadAsStringAsync();
 
         return RegexUtil.HtmlTableRegex().Match(responseString).Groups[1].Value;
